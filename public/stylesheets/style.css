@@ -1,8 +1,21 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer {
+  base {
+    @apply font-sans;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+  }
 }
 
-a {
-  color: #00B7FF;
+.button-base {
+  @apply bg-white text-black font-light text-[0.8rem] hover:-translate-y-[0.1rem] py-1 px-6 rounded-full transition-all duration-200;
+}
+
+.button-main {
+  @apply bg-green-400 text-black font-semibold text-[1rem] hover:-translate-y-[0.1rem] py-2 px-8 rounded-full transition-all duration-200;
 }

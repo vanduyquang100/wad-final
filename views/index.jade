@@ -1,5 +1,63 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  header(class="w-full sticky top-0 left-0 p-5 text-white backdrop-blur-lg shadow-xl bg-black/50 z-10")
+    nav(class="mx-auto max-w-screen-lg flex justify-between items-center gap-4 flex-wrap")
+      h1(class="text-sm font-medium") WalenCiaga
+      div(class="flex gap-6 text-sm font-light mx-auto")
+        a(href="#") Home
+        a(href="./pages/about") About
+        a(href="./pages/products/index.html") Products
+        a(href="./pages/contact") Contact
+      div(class="text-sm text-nowrap") 1 800-123-4567
+      button(class="button-base", onclick="navigateRegister()") Get Started
+  
+  section(class="md:flex justify-center items-center")
+    section(class="relative mx-10 min-h-screen")
+      div(class="title relative h-fit w-fit mt-20")
+        h1(class="text-[4rem]") WalenCiaga
+        div(class="absolute opacity-20 -z-10 text-[7rem] top-1/2 -translate-y-1/2 origin-center translate-x-1/2") WC
+      h2(class="text-3xl font-extralight")
+        | Your 
+        span(class="italic font-normal") butt
+        span(class="italic font-thin") erfly choice
+      section(class="my-10 flex")
+        div(class="border-r-[1px] border-gray-500 pr-4")
+          div(class="flex gap-1 mb-2")
+            div(class="text-green-400 text-4xl font-bold") 4.9
+            div(class="text-sm text-gray-100") 
+              | (2.5k+
+              br
+              | Reviews)
+          img(src="/images/stars.svg", alt="5 stars")
+          div(class="text-sm mt-2") Average rating based on client feedback
+        div(class="pl-4 text-sm text-gray-400 max-w-52")
+          | We are a creative company in providing high-quality toilet interior design.
+          img(class="w-24 h-24 hover:animate-pulse duration-100 active:scale-75 transition-all", src="/images/explore_more_icon.svg", alt="explore_more")
+  
+    section(class="max-w-[400px] relative mx-auto lg:mx-0 p-4 pr-8 animate-float-and-bounce h-fit")
+      div(class="bg-green-400 absolute bottom-10 -left-2 rounded-full h-12 w-full blur-2xl rotate-[34deg] opacity-30 -z-10")
+      img(src="/images/hero.png", alt="hero")
+  
+  section(class="w-full bg-green-400 overflow-hidden text-black uppercase")
+    div(class="flex space-x-10 w-full flex-nowrap text-nowrap")
+      div Interior Products
+      div ✱
+      div Toilet
+      div ✱
+      div Bathroom Accessories
+      div ✱
+      div Shower Curtains
+      div ✱
+      div Bath Mats
+      div ✱
+      div Toilet Brushes
+      div ✱
+      div Toilet Paper Holders
+      div ✱
+      div Soap Dispensers
+      div ✱
+      div Towel Racks
+  
+  footer(class="text-center py-5 text-sm font-light text-white")
+    | &copy; 2024 Company. All rights reserved.
