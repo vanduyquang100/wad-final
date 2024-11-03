@@ -1,2 +1,3 @@
 # git-ignore all node modules
 node_modules/
+.env
