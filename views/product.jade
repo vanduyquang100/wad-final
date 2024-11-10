@@ -4,13 +4,13 @@ block content
   header(class="w-full p-5 bg-black text-white shadow-lg")
     nav(class="max-w-screen-lg mx-auto flex justify-between items-center")
       h1 WalenCiaga
-      a(class="text-sm") Home
+      a(href="/", class="text-sm") Home
   
-  main(class="max-w-screen-lg mx-auto p-10")
+  main(class="bg-white mx-auto p-10 ")
     div(class="text-sm text-gray-500 mb-4")
-      a(href="../../index.html") Home
+      a(href="/") Home
       |  &gt;
-      a(href="index.html") Products
+      a(href="/products") Products
       |  &gt;
       span Product
 
@@ -26,7 +26,7 @@ block content
 
         button(class="button-main py-4 px-2") Add to Cart
 
-    div(class="mt-10 w-3/4 mx-auto text-sm text-gray-700") Product Details Description
+    div(class="mt-10 w-3/4 mx-auto text-sm text-gray-700")=product.detailDescription
   
   footer(class="text-center py-5 text-sm font-light text-white")
     p &copy; 2024 Company. All rights reserved.

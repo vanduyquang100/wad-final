@@ -27,6 +27,8 @@ const router = Router();
  *                 type: string
  *               description:
  *                 type: string
+ *               detailDescription:
+ *                 type: string
  *               price:
  *                 type: number
  *                 format: float

@@ -1,5 +1,6 @@
 {
-  "watch": ["views/**/*.pug", "views/**/*.jade"],
-  "ext": "js,json,pug,jade",
-  "exec": "node ./bin/www"
+  "exec": "node ./bin/www",
+  "env": {
+    "NODE_ENV": "development"
+  }
 }

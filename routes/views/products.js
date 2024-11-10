@@ -6,7 +6,7 @@ const router = Router();
 router.get("/", async (req, res, next) => {
   try {
     const products = await productViewController.getAllProducts(req);
-    res.render("products", { products });
+    res.render("products", { products, title: "Products Page" });
   } catch (error) {
     res.status(404).render("error", { error: error.message });
   }
@@ -15,7 +15,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const product = await productViewController.getProduct(req);
-    res.render("product", { product });
+    res.render("product", { product, title: "" + product.name });
   } catch (error) {
     res.status(404).render("error", { error: error.message });
   }

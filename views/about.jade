@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  header(class="w-full sticky top-0 left-0 p-5 text-white backdrop-blur-lg shadow-xl bg-black/50 z-10")
+    nav(class="mx-auto max-w-screen-lg flex justify-between items-center gap-4 flex-wrap")
+      h1(class="text-sm font-medium") WalenCiaga
+      div.flex.gap-6.text-sm.font-light.mx-auto
+        a(href="/") Home
+        a(href="/about") About
+        a(href="/products") Products
+        a(href="/contact") Contact
+      div.text-sm.text-nowrap 1 800-123-4567
+      button.button-base(onclick="navigateRegister()") Get Started
+
+  main.text-white
+  section.px-10.py-20.mx-auto.max-w-screen-md
+    h2.text-4xl.font-extralight About Us
+    p.mt-4.text-lg.text-gray-300
+      | WalenCiaga is committed to providing exceptional interior design
+      | solutions for your most personal space. With high-quality products and
+      | tailored designs, we aim to bring elegance and comfort into every
+      | detail.
+
+  footer.text-center.py-5.text-sm.font-light.text-white
+    | &copy; 2024 WalenCiaga. All rights reserved.
+  
+  script(src="/javascripts/default.js")

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  header(class="w-full sticky top-0 left-0 p-5 text-white backdrop-blur-lg shadow-xl bg-black/50 z-10")
+    nav(class="mx-auto max-w-screen-lg flex justify-between items-center gap-4 flex-wrap")
+      h1(class="text-sm font-medium") WalenCiaga
+      div.flex.gap-6.text-sm.font-light.mx-auto
+        a(href="/") Home
+        a(href="/about") About
+        a(href="/products") Products
+        a(href="/contact") Contact
+      div.text-sm.text-nowrap 1 800-123-4567
+      button.button-base(onclick="navigateRegister()") Get Started
+
+  main.text-white
+  section.px-10.py-20.mx-auto.max-w-screen-md
+    h2.text-4xl.font-extralight Contact Us
+    p.mt-4.text-lg.text-gray-300
+      | We’d love to hear from you! Reach out via phone or complete the form
+      | below.
+    form.mt-10.flex.flex-col.gap-4
+      input(type="text", class="p-3 bg-black border border-gray-600 rounded-lg placeholder-gray-400", placeholder="Name")
+      input(type="email", class="p-3 bg-black border border-gray-600 rounded-lg placeholder-gray-400", placeholder="Email")
+      textarea(class="p-3 bg-black border border-gray-600 rounded-lg placeholder-gray-400", placeholder="Message")
+      button(type="submit", class="py-2 px-6 bg-green-400 text-black rounded-lg") Submit
+
+  footer.text-center.py-5.text-sm.font-light.text-white
+    | &copy; 2024 WalenCiaga. All rights reserved.
+  
+  script(src="/javascripts/default.js")

@@ -3,13 +3,13 @@ block content
     header(class="w-full sticky top-0 left-0 p-5 text-white backdrop-blur-lg shadow-xl bg-black/50 z-10")
       nav(class="mx-auto max-w-screen-lg flex justify-between items-center gap-4")
         h1(class="text-sm font-medium") WalenCiaga
-        div(class="flex gap-6 text-sm font-light")
-          a(href="./../../index.html") Home
-          a(href="./../about") About
-          a(href="#") Products
-          a(href="./../contact") Contact
-        div(class="text-sm") 1 800-123-4567
-        button.button-base(onclick="navigateRegister()") Get Started
+        div(class="flex gap-6 text-sm font-light mx-auto")
+          a(href="/") Home
+          a(href="/about") About
+          a(href="/products") Products
+          a(href="/contact") Contact
+        div(class="text-sm text-nowrap") 1 800-123-4567
+        button(class="button-base", onclick="navigateRegister()") Get Started
 
     section(class="relative w-full h-64 bg-gray-300 text-black overflow-hidden")
       img(src="/images/background.png", alt="Banner Image", class="w-full h-full object-cover")
@@ -40,7 +40,14 @@ block content
             h3(class="text-lg font-medium mb-2")= product.name
             p(class="text-gray-600 mb-2")= product.description
             img(src=product.imageUrl, alt="Product Image", class="w-32 h-32 mx-auto mb-4")
-            div(class="text-xl font-semibold text-gray-800 mb-2")= product.price
+            div(class="price-tag text-xl font-semibold text-gray-800 mb-2")= product.price || 0
+      div(class="max-w-screen-md mx-auto mt-10")
+        button(id="load-more-btn", class="px-4 w-full py-2 bg-gray-100 text-gray-600 rounded", onclick="onClickLoadMore()") Load More
 
     footer(class="text-center py-5 text-sm font-light text-gray-600 mt-0")
       | &copy; 2024 WalenCiaga. All rights reserved.
+
+    script(src="/javascripts/default.js")
+    script(src="/javascripts/products.js")
+    script.
+      renderPriceTag();

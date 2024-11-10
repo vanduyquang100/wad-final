@@ -1,3 +1,3 @@
 const navigateRegister = () => {
-  window.location.href = "/pages/register";
+  window.location.href = "/users/register";
 };
