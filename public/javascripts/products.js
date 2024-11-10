@@ -64,7 +64,7 @@ const renderProducts = (products) => {
     productItem.innerHTML = `
       <h3 class="text-lg font-medium mb-2">${product.name}</h3>
       <p class="text-gray-600 mb-2">${product.description}</p>
-      <img src="${product.image || "/images/default-image.png"}" alt="${
+      <img src="${product.imageUrl || "/images/default-image.png"}" alt="${
       product.name
     }" class="w-32 h-32 mx-auto mb-4">
       <div class="text-xl font-semibold text-gray-800 mb-2">${formatPrice(
