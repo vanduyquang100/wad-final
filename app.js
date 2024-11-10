@@ -11,6 +11,7 @@ import indexViewRouter from "./routes/views/index.js";
 import usersApiRouter from "./routes/apis/users.js";
 import productsApiRouter from "./routes/apis/products.js";
 import productViewRouter from "./routes/views/products.js";
+import userViewRouter from "./routes/views/users.js";
 
 // Get the current directory name
 const __filename = fileURLToPath(import.meta.url);
@@ -37,6 +38,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use("/", indexViewRouter);
 app.use("/products", productViewRouter);
+app.use("/users", userViewRouter);
 app.use("/api/users", usersApiRouter);
 app.use("/api/products", productsApiRouter);
 
@@ -44,16 +46,6 @@ app.use("/api/products", productsApiRouter);
 app.use((req, res, next) => {
   next(createError(404));
 });
-
-// // mockup data
-// app.use((err, req, res, next) => {
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render("error");
-// });
 
 // error handler
 app.use((err, req, res, next) => {
