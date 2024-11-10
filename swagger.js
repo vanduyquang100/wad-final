@@ -10,7 +10,7 @@ const options = {
       description: "The Walenciaga API documentation",
     },
   },
-  apis: ["./routes/*.js"],
+  apis: ["./routes/apis/*.js"],
 };
 
 const specs = swaggerJsdoc(options);
