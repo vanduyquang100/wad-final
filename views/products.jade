@@ -19,28 +19,35 @@ block content
     section(class="bg-white text-black py-4")
       div(class="max-w-screen-lg mx-auto mb-5")
         nav(class="text-sm text-gray-600")
-          a(href="./../../index.html", class="hover:text-black") Home
+          a(href="/", class="hover:text-black") Home
           |  &gt;
 
       //- Product Filters and Sorting
-      div(class="max-w-screen-lg mx-auto flex justify-between items-center mb-5")
-        div(class="flex space-x-4")
-          button(class="px-4 py-2 bg-gray-100 text-gray-600 rounded") Technology
-          button(class="px-4 py-2 bg-gray-100 text-gray-600 rounded") Product
-          button(class="px-4 py-2 bg-gray-100 text-gray-600 rounded") Price
-        select(class="px-4 py-2 border rounded text-gray-600")
-          option Default
-          option Price: Low to High
-          option Price: High to Low
+      div(class="max-w-screen-lg mx-auto mb-5")
+        div(class="flex space-x-4 flex-wrap max-w-full justify-between")
+          div(class="relative w-1/2 h-10")
+            input(id="search-input", type="text", class="absolute left-0 top-0 w-full h-full rounded-sm border-b-2 border-gray-200 bg-transparent text-gray-900 focus:outline-none pl-6", placeholder="Search for name or description")
+            img(src="/images/search.svg", alt='search icon', class='absolute left-0 top-1/2 -translate-y-1/2 origin-center')
+          select#price-filter(class="px-2")
+            option All Price
+            option(value="$") $
+            option(value="$$") $$
+            option(value="$$$") $$$ 
+        div(class="flex space-x-4 flex-wrap max-w-full mt-4 items-center")
+          each category in products.categories
+            button(class="category-button border-black border-[1px] px-4 py-2 bg-gray-100 text-gray-600 rounded", onclick="handleCategoryClick(event);", data-category=category) #{category}
 
       section#product-list(class="max-w-screen-lg mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8")
         //- Template div to make TailwindCSS work
         each product in products.docs
           a(href='/products/' + product.id, class="border rounded-lg p-5 shadow-sm text-center")
-            h3(class="text-lg font-medium mb-2")= product.name
-            p(class="text-gray-600 mb-2")= product.description
+            h3(class="text-lg font-semibold mb-1")= product.name
+            p(class="text-[0.7rem] rounded-full px-2 py-1 bg-green-100 w-fit mx-auto")=product.category
             img(src=product.imageUrl, alt="Product Image", class="w-32 h-32 mx-auto mb-4")
-            div(class="price-tag text-xl font-semibold text-gray-800 mb-2")= product.price || 0
+            if product.promotePrice
+              div(class="price-tag text-sm text-gray-500 line-through")=product.price
+            div(class="price-tag text-xl font-semibold text-gray-800 mb-2") #{product.promotePrice || (product.price || 0)}
+            p(class="text-gray-600 mb-2 text-sm pt-4 border-t-[1px] border-gray-200 mt-2")= product.description
       div(class="max-w-screen-md mx-auto mt-10")
         button(id="load-more-btn", class="px-4 w-full py-2 bg-gray-100 text-gray-600 rounded", onclick="onClickLoadMore()") Load More
 
@@ -49,5 +56,3 @@ block content
 
     script(src="/javascripts/default.js")
     script(src="/javascripts/products.js")
-    script.
-      renderPriceTag();

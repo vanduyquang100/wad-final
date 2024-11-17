@@ -20,6 +20,11 @@ const productSchema = new Schema(
       required: true,
       min: 0,
     },
+    promotePrice: {
+      type: Number,
+      required: false,
+      min: 0,
+    },
     category: {
       type: String,
       required: true,
