@@ -53,6 +53,14 @@ class ProductService {
     return products;
   }
 
+  async getRelevantProducts(id, category) {
+    const products = await Product.paginate(
+      { category, _id: { $ne: id } },
+      { page: 1, limit: 3 }
+    );
+    return products;
+  }
+
   async getCategories() {
     return await Product.distinct("category");
   }

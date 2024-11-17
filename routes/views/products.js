@@ -15,6 +15,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const product = await productViewController.getProduct(req);
+    console.log(product);
     res.render("product", { product, title: "" + product.name });
   } catch (error) {
     res.status(404).render("error", { error: error.message });

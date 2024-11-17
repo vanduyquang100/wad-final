@@ -4,6 +4,16 @@ class ProductViewController {
   async getProduct(req) {
     try {
       const product = await productService.getProductById(req.params.id);
+      if (product) {
+        console.log("found product");
+        const relevantProducts = await productService.getRelevantProducts(
+          product.id,
+          product.category
+        );
+        console.log("relevant product", relevantProducts);
+        product.relevantProducts = relevantProducts.docs;
+        console.log("product in the end", product);
+      }
       return product;
     } catch (error) {
       throw new Error(error.message);
