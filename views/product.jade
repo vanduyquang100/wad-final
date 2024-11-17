@@ -18,15 +18,31 @@ block content
       div(class="bg-gray-50 h-40 flex items-center justify-center border-[1px] border-gray-100 rounded-lg")
         img(src='#{product.imageUrl}', alt="Product Image", class="w-full h-full object-contain")
       div
-        h1(class="text-2xl font-semibold mb-2") #{product.name || 'Unknown Product'}
+        h1(class="text-2xl font-semibold mb-2 text-black") #{product.name || 'Unknown Product'}
         p(class="text-gray-700 mb-4") #{product.description || 'No description available'}
-        p(class="text-lg font-bold text-green-600 mb-6")
-          | Price: 
-          span #{product.price || 'N/A'} VND
+        div(class="mb-6")
+          p(class="text-lg font-bold text-green-600")
+            | Price: 
+            span(class='price-tag') #{product.promotePrice || product.price || 0}
+          if product.promotePrice
+            p(class='price-tag text-gray-500 line-through text-sm') #{product.price || 0}
 
         button(class="button-main py-4 px-2") Add to Cart
-
     div(class="mt-10 w-3/4 mx-auto text-sm text-gray-700")=product.detailDescription
+
+    div(class="w-screen")
+      p(class='text-bold text-black font-semibold mt-10 text-center mb-4') Relevant Products
+      div(class="flex flex-nowrap w-full space-x-4 justify-center mx-auto")
+        each relevantProduct in product.relevantProducts
+              a(href='/products/' + relevantProduct.id, class="border rounded-lg p-5 shadow-sm text-center")
+                h3(class="text-lg font-semibold mb-1")= relevantProduct.name
+                img(src=relevantProduct.imageUrl, alt="Product Image", class="w-32 h-32 mx-auto mb-4")
+                if relevantProduct.promotePrice
+                  div(class="price-tag text-sm text-gray-500 line-through")=relevantProduct.price
+                div(class="price-tag text-xl font-semibold text-gray-800 mb-2") #{relevantProduct.promotePrice || (relevantProduct.price || 0)}
+                p(class="text-gray-600 mb-2 text-sm pt-4 border-t-[1px] border-gray-200 mt-2")= relevantProduct.description
   
   footer(class="text-center py-5 text-sm font-light text-white")
     p &copy; 2024 Company. All rights reserved.
+  
+  script(src="/javascripts/product.js")
