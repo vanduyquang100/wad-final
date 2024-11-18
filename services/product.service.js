@@ -61,6 +61,14 @@ class ProductService {
     return products;
   }
 
+  async getPromotionProducts() {
+    const products = await Product.paginate(
+      { promotePrice: { $ne: null } },
+      { page: 1, limit: 3 }
+    );
+    return products;
+  }
+
   async getCategories() {
     return await Product.distinct("category");
   }

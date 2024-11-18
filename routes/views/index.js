@@ -1,9 +1,12 @@
 import { Router } from "express";
+import { productViewController } from "../../controllers/views/product.controller.js";
+
 var router = Router();
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Home" });
+router.get("/", async function (req, res, next) {
+  const products = await productViewController.getPromotionProducts(res);
+  res.render("index", { title: "Home", products });
 });
 
 router.get("/contact", function (req, res, next) {
