@@ -20,12 +20,21 @@ class ProductViewController {
     }
   }
 
-  async getAllProducts(req) {
+  async getAllProducts(req, res) {
     try {
       const { page, limit, ...filter } = req.query;
       const products = await productService.getProducts(filter, page, limit);
       const categories = await productService.getCategories();
       return { ...products, categories };
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async getPromotionProducts(res) {
+    try {
+      const products = await productService.getPromotionProducts();
+      return products;
     } catch (error) {
       res.status(400).json({ error: error.message });
     }

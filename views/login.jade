@@ -14,21 +14,18 @@ block content
 
   main.text-white.flex.justify-center.items-center.h-full
     section(class="px-10 py-20 max-w-screen-sm w-full bg-black/80 rounded-lg backdrop-blur-lg shadow-md")
-      h2.text-4xl.font-extralight.text-center Register
-      form.mt-10.flex.flex-col.gap-4(onsubmit="registerUser(event);")
-        input(type="text", name='name', class="p-3 bg-black border border-gray-600 rounded-lg placeholder-gray-400", placeholder="Full Name", required=true)
+      h2.text-4xl.font-extralight.text-center Login
+      form.mt-10.flex.flex-col.gap-4
         input(type="email", name='email', class="p-3 bg-black border border-gray-600 rounded-lg placeholder-gray-400", placeholder="Email", required=true)
         input(type="password", name='password', class="p-3 bg-black border border-gray-600 rounded-lg placeholder-gray-400", placeholder="Password", required=true)
-        input(type="password", name="confirmPassword", class="p-3 bg-black border border-gray-600 rounded-lg placeholder-gray-400", placeholder="Confirm Password", required=true)
         button(type="submit", class="py-2 px-6 bg-green-400 text-black rounded-lg mt-4 flex items-center justify-center gap-3")
           img(src="/images/spinner.svg", alt="spinner", class="register-spinner w-6 hidden")
-          | Register
+          | Log In
       p(class="text-center text-gray-400 mt-4")
-        | Already have an account?
-        a(href="/users/login", class="text-green-400")&nbsp; Login here
+        | Don't have an account yet?
+        a(href="/users/register", class="text-green-400")&nbsp; Register here
 
   footer.text-center.py-5.text-sm.font-light.text-white
     | &copy; 2024 WalenCiaga. All rights reserved.
   
   script(src="/javascripts/default.js")
-  script(src="/javascripts/register.js")
