@@ -18,17 +18,11 @@ block content
           a(class="button-base", href="/users/logout") Log Out
       if !user
         button(class="button-base", onclick="navigateRegister()") Get Started
-
-  main.text-white
-  section.px-10.py-20.mx-auto.max-w-screen-md
-    h2.text-4xl.font-extralight About Us
-    p.mt-4.text-lg.text-gray-300
-      | WalenCiaga is committed to providing exceptional interior design
-      | solutions for your most personal space. With high-quality products and
-      | tailored designs, we aim to bring elegance and comfort into every
-      | detail.
-
-  footer.text-center.py-5.text-sm.font-light.text-white
-    | &copy; 2024 WalenCiaga. All rights reserved.
-  
-  script(src="/javascripts/default.js")
+  main
+    h1(class="text-2xl font-bold mb-6 text-center mt-4") View Card Items
+    div(class="flex flex-col space-y-4")
+      div(class="shadow-lg rounded-lg p-6 border border-gray-200 mx-10")
+        div(class="text-lg font-semibold mb-4 text-center")
+          h3 No items in the list yet.
+        div(class="text-center text-gray-200")
+          p There are currently no items to display in your card.
