@@ -15,12 +15,14 @@ block content
   main.text-white.flex.justify-center.items-center.h-full
     section(class="px-10 py-20 max-w-screen-sm w-full bg-black/80 rounded-lg backdrop-blur-lg shadow-md")
       h2.text-4xl.font-extralight.text-center Login
-      form.mt-10.flex.flex-col.gap-4
+      form(action="/users/login", method="POST", class="mt-10 flex flex-col gap-4")
         input(type="email", name='email', class="p-3 bg-black border border-gray-600 rounded-lg placeholder-gray-400", placeholder="Email", required=true)
         input(type="password", name='password', class="p-3 bg-black border border-gray-600 rounded-lg placeholder-gray-400", placeholder="Password", required=true)
         button(type="submit", class="py-2 px-6 bg-green-400 text-black rounded-lg mt-4 flex items-center justify-center gap-3")
           img(src="/images/spinner.svg", alt="spinner", class="register-spinner w-6 hidden")
           | Log In
+        if error && error.length > 0
+          div(class="rounded-lg border-[1px] border-red-500 bg-red-500/10 px-4 py-2 text-center text-red-500")=error[0]
       p(class="text-center text-gray-400 mt-4")
         | Don't have an account yet?
         a(href="/users/register", class="text-green-400")&nbsp; Register here

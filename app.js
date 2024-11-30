@@ -6,12 +6,18 @@ import logger from "morgan";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { specs, swaggerUi } from "./swagger.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 import indexViewRouter from "./routes/views/index.js";
 import usersApiRouter from "./routes/apis/users.js";
 import productsApiRouter from "./routes/apis/products.js";
 import productViewRouter from "./routes/views/products.js";
 import userViewRouter from "./routes/views/users.js";
+import session from "express-session";
+import passport from "passport";
+import flash from "connect-flash";
+import { configurePassport } from "./config/passportConfig.js";
 
 // Get the current directory name
 const __filename = fileURLToPath(import.meta.url);
@@ -35,6 +41,21 @@ app.use(express.static(join(__dirname, "public"))); // Correctly setting up stat
 import connectDB from "./config/db.js";
 connectDB();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  })
+);
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Configure Passport
+configurePassport(passport);
 
 app.use("/", indexViewRouter);
 app.use("/products", productViewRouter);

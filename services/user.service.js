@@ -47,6 +47,10 @@ class UserService {
   async getAllUsers() {
     return await User.find();
   }
+
+  async getUserByEmail(email) {
+    return await User.findOne({ email });
+  }
 }
 
 export const userService = new UserService();

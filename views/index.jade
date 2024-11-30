@@ -10,7 +10,14 @@ block content
         a(href="/products") Products
         a(href="/contact") Contact
       div(class="text-sm text-nowrap") 1 800-123-4567
-      button(class="button-base", onclick="navigateRegister()") Get Started
+      if user
+        div(class='flex space-x-4 items-center')
+            a(href='/products/cart')
+              img(src="/images/cart.svg", alt="spinner", class="w-4")
+            div(class='text-white') Hello #{user.name}
+            a(class="button-base", href="/users/logout") Log Out
+      if !user
+        button(class="button-base", onclick="navigateRegister()") Get Started
   
   section(class="md:flex justify-center items-center")
     section(class="relative mx-10 min-h-screen")
