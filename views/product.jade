@@ -5,6 +5,12 @@ block content
     nav(class="max-w-screen-lg mx-auto flex justify-between items-center")
       h1 WalenCiaga
       a(href="/", class="text-sm") Home
+      if user
+          div(class='flex space-x-4 items-center ml-auto')
+            a(href='/carts/')
+              img(src="/images/cart.svg", alt="spinner", class="w-4")
+            div(class='text-white') Hello #{user.name}
+            a(class="button-base", href="/users/logout") Log Out
   
   main(class="bg-white mx-auto p-10 ")
     div(class="text-sm text-gray-500 mb-4")
@@ -26,8 +32,13 @@ block content
             span(class='price-tag') #{product.promotePrice || product.price || 0}
           if product.promotePrice
             p(class='price-tag text-gray-500 line-through text-sm') #{product.price || 0}
-
-        button(class="button-main py-4 px-2") Add to Cart
+        div(class="flex items-center gap-4 my-2")
+          button(class="px-4 py-2 bg-gray-200 rounded text-gray-800 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed", id="decrement-btn", disabled)
+            | -
+          input(type="number", min="1", value="1", id="quantity-input", class="w-16 h-10 font-bold text-black pl-4 text-center border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none")
+          button(class="px-4 py-2 bg-gray-200 rounded text-gray-800 hover:bg-gray-300", id="increment-btn")
+            | +
+        button(id="add-to-cart", class="button-main py-4 px-2") Add to Cart
     div(class="mt-10 w-3/4 mx-auto text-sm text-gray-700")=product.detailDescription
 
     div(class="w-screen")
@@ -45,4 +56,4 @@ block content
   footer(class="text-center py-5 text-sm font-light text-white")
     p &copy; 2024 Company. All rights reserved.
   
-  script(src="/javascripts/product.js")
+  script(src="/javascripts/product.js", type='module')

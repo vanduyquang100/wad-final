@@ -16,17 +16,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/cart", async (req, res, next) => {
-  if (req.user) {
-    res.render("cartview", {
-      title: "View Cart",
-      user: req.user,
-    });
-  } else {
-    res.redirect("/users/login");
-  }
-});
-
 router.get("/:id", async (req, res, next) => {
   try {
     const product = await productViewController.getProduct(req);

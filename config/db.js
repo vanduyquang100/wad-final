@@ -1,6 +1,7 @@
 import { connect } from "mongoose";
 import dotenv from "dotenv";
 import Product from "../models/product.model.js";
+import Cart from "../models/cart.model.js";
 import dummyProducts from "../config/dummyProducts.js";
 
 dotenv.config();
@@ -8,6 +9,7 @@ dotenv.config();
 async function seedDatabase() {
   try {
     await Product.deleteMany({});
+    await Cart.deleteMany({});
     console.log("Old data deleted");
 
     await Product.insertMany(dummyProducts);
