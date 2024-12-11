@@ -12,7 +12,11 @@ dotenv.config();
 import indexViewRouter from "./routes/views/index.js";
 import usersApiRouter from "./routes/apis/users.js";
 import productsApiRouter from "./routes/apis/products.js";
+import cartsApiRouter from "./routes/apis/cart.js";
+import ordersApiRouter from "./routes/apis/order.js";
 import productViewRouter from "./routes/views/products.js";
+import cartViewRouter from "./routes/views/carts.js";
+import orderViewRouter from "./routes/views/order.js";
 import userViewRouter from "./routes/views/users.js";
 import session from "express-session";
 import passport from "passport";
@@ -59,9 +63,13 @@ configurePassport(passport);
 
 app.use("/", indexViewRouter);
 app.use("/products", productViewRouter);
+app.use("/carts", cartViewRouter);
+app.use("/orders", orderViewRouter);
 app.use("/users", userViewRouter);
 app.use("/api/users", usersApiRouter);
 app.use("/api/products", productsApiRouter);
+app.use("/api/carts", cartsApiRouter);
+app.use("/api/orders", ordersApiRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -12,17 +12,56 @@ block content
       div.text-sm.text-nowrap 1 800-123-4567
       if user
         div(class='flex space-x-4 items-center')
-          a(href='/products/cart')
+          a(href='/carts/')
             img(src="/images/cart.svg", alt="spinner", class="w-4")
           div(class='text-white') Hello #{user.name}
           a(class="button-base", href="/users/logout") Log Out
       if !user
         button(class="button-base", onclick="navigateRegister()") Get Started
-  main
-    h1(class="text-2xl font-bold mb-6 text-center mt-4") View Card Items
+  main(class="bg-white p-8 h-full text-black")
+    h1(class="text-2xl font-bold mb-6 text-center mt-4") Your Cart Items
     div(class="flex flex-col space-y-4")
+    if !cart || !cart.items || !cart.items.length
       div(class="shadow-lg rounded-lg p-6 border border-gray-200 mx-10")
         div(class="text-lg font-semibold mb-4 text-center")
           h3 No items in the list yet.
-        div(class="text-center text-gray-200")
+        div(class="text-center text-gray-600")
           p There are currently no items to display in your card.
+    else
+      div
+        each item in cart.items
+          div(class="item-row first:rounded-t-md last:rounded-b-md border-[1px] border-gray-100 shadow-lg shadow-green-800/3010 bg-white pr-8 pl-5 py-4 flex justify-between items-center")
+            div(class="flex space-x-2 items-center")
+              button(class="remove-item-btn rounded-full w-6 h-6 text-sm bg-slate-200 text-gray-600 hover:bg-red-500 active:bg-red-700 hover:text-white active:text-white ", data-product_id=item.productId) ✖
+              img(class="w-10 h-10", src=item.product.imageUrl, alt="product photo")
+              div
+                div(class="font-semibold") #{item.product.name}
+                div(class="font-light text-sm text-gray-600") #{item.product.description}
+            div(class="ml-auto")
+              div(class="price-tag font-bold text-center")=item.product.promotePrice || item.product.price
+              div(class="flex items-center gap-4 my-2")
+                button(class="px-4 py-2 bg-gray-200 rounded text-gray-800 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed", id="decrement-btn", disabled)
+                  | -
+                input(type="number", min="1",data-product_id=item.productId, value=item.quantity, class="quantity-input w-16 h-10 font-bold text-black pl-4 text-center border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none")
+                button(class="px-4 py-2 bg-gray-200 rounded text-gray-800 hover:bg-gray-300", id="increment-btn")
+                  | +
+            div(class="ml-8 w-64")
+              p(class="text-sm text-gray-600 text-right") Total price
+              div(class="total-price text-right ml-auto price-tag font-bold italic",data-product_id=item.productId, data-price=(item.product.promotePrice || item.product.price), data-total_price=((item.product.promotePrice || item.product.price) * item.quantity))=(item.product.promotePrice || item.product.price) * item.quantity
+      - var totalPrice = 0
+      each item in cart.items
+        - totalPrice += (item.product.promotePrice || item.product.price) * item.quantity
+      div(class="flex justify-between items-start my-6 px-4")
+        div(class="text-lg italic") Total price
+        div(class="flex flex-col items-end")
+          div(class="total-price-tag price-tag text-lg font-bold text-green-800")= totalPrice
+          form(action="/api/orders", method="POST")
+            button(type="submit", id="order-button", class="px-4 mt-4 py-2 rounded-full bg-green-800 text-white flex items-center space-x-2")
+              p Proceed to payment
+              img(src="/images/arrow_icon.svg", alt="spinner", class="w-4")
+
+
+  script(src="/javascripts/cart.js", type='module')
+  script(src="/javascripts/render_cart.js", type='module')
+    
+    
