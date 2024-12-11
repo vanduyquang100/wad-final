@@ -6,7 +6,10 @@ import logger from "morgan";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { specs, swaggerUi } from "./swagger.js";
+import { redisClient } from "./config/redisConfig.js";
+import { RedisStore } from "connect-redis";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 import indexViewRouter from "./routes/views/index.js";
@@ -44,9 +47,11 @@ app.use(express.static(join(__dirname, "public"))); // Correctly setting up stat
 // Import your database connection function here
 import connectDB from "./config/db.js";
 connectDB();
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(
   session({
+    store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
