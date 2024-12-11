@@ -66,6 +66,11 @@ app.use(passport.session());
 // Configure Passport
 configurePassport(passport);
 
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
+
 app.use("/", indexViewRouter);
 app.use("/products", productViewRouter);
 app.use("/carts", cartViewRouter);
