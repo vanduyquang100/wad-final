@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  header(class="w-full sticky top-0 left-0 p-5 text-white backdrop-blur-lg shadow-xl bg-black/50 z-10")
+    nav(class="mx-auto max-w-screen-lg flex justify-between items-center gap-4 flex-wrap")
+      h1(class="text-sm font-medium") WalenCiaga
+      div.flex.gap-6.text-sm.font-light.mx-auto
+        a(href="/") Home
+        a(href="/about") About
+        a(href="/products") Products
+        a(href="/contact") Contact
+      div.text-sm.text-nowrap 1 800-123-4567
+      if user
+        div(class='flex space-x-4 items-center')
+          a(href='/carts/')
+            img(src="/images/cart.svg", alt="spinner", class="w-4")
+          div(class='text-white') Hello #{user.name}
+          a(class="button-base", href="/users/logout") Log Out
+      if !user
+        button(class="button-base", onclick="navigateRegister()") Get Started
+  main(class="bg-white p-8 h-full text-black")
+    h1(class="text-2xl font-bold mb-6 text-center mt-4") View Order
+    div(class="flex flex-col space-y-4")
+      each item in order.items
+        div(class="item-row first:rounded-t-md last:rounded-b-md border-[1px] border-gray-100 shadow-lg shadow-green-800/3010 bg-white pr-8 pl-5 py-4 flex justify-between items-center")
+          div(class="flex space-x-2 items-center")
+            img(class="w-10 h-10", src=item.product.imageUrl, alt="product photo")
+            div
+              div(class="font-semibold") #{item.product.name}
+              div(class="font-light text-sm text-gray-600") #{item.product.description}
+          div(class="flex space-x-2 ml-auto")
+            div(class="price-tag font-bold text-center") #{item.product.promotePrice || item.product.price}
+            div x #{item.quantity}
+          div(class="ml-8 w-64")
+            p(class="text-sm text-gray-600 text-right") Total price
+            div(class="total-price text-right ml-auto price-tag font-bold italic",data-product_id=item.productId, data-price=(item.product.promotePrice || item.product.price), data-total_price=((item.product.promotePrice || item.product.price) * item.quantity))=(item.product.promotePrice || item.product.price) * item.quantity
+    - var totalPrice = 0
+    each item in order.items
+      - totalPrice += (item.product.promotePrice || item.product.price) * item.quantity
+    div(class="flex justify-between items-start my-6 px-4")
+      div(class="text-lg italic") Total price
+      div(class="flex flex-col items-end")
+        div(class="total-price-tag price-tag text-lg font-bold text-green-800")= totalPrice
+        button(class="px-4 mt-4 py-2 rounded-full bg-green-800 text-white flex items-center space-x-2")
+          p Make the Order
+          img(src="/images/arrow_icon.svg", alt="spinner", class="w-4")
+
+  script(src="/javascripts/render_order.js", type='module')
+    
+    

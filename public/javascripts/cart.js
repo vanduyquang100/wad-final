@@ -36,3 +36,15 @@ export const modifyQuantity = async (itemId, quantity) => {
     throw new Error(`Failed to modify products: ${response.statusText}`);
   }
 };
+
+export const createOrderFromCurrentCart = async () => {
+  const response = await fetch(`/api/orders/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to fetch products: ${response.statusText}`);
+  }
+};

@@ -1,5 +1,9 @@
 import { formatPrice, renderPriceTag } from "./pricetag.js";
-import { modifyQuantity, removeFromCart } from "./cart.js";
+import {
+  modifyQuantity,
+  removeFromCart,
+  createOrderFromCurrentCart,
+} from "./cart.js";
 
 const onDocumentDOMLoadEvent = () => {
   const updateTotalPrice = () => {
