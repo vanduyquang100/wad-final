@@ -1,10 +1,17 @@
 import Product from "../models/product.model.js";
 
 class ProductService {
-  async getProducts(filter = {}, page = 1, limit = 9) {
+  async getProducts(
+    filter = {},
+    page = 1,
+    limit = 9,
+    sortBy = "createdAt",
+    sortOrder = "asc"
+  ) {
     const options = {
       page,
       limit,
+      sort: { [sortBy]: sortOrder === "asc" ? 1 : -1 }, // Set sort options
     };
 
     const searchQuery = filter.name || filter.description;
@@ -16,6 +23,12 @@ class ProductService {
     if (searchQuery) {
       const regexQuery = { $regex: searchQuery, $options: "i" };
       finalFilter.$or = [{ name: regexQuery }, { description: regexQuery }];
+    }
+    if (filter.category) {
+      finalFilter.$and = [
+        ...(finalFilter.$and || []),
+        { category: { $regex: filter.category, $options: "i" } },
+      ];
     }
 
     // Handle price filtering
@@ -38,11 +51,14 @@ class ProductService {
     }
 
     // Add any additional filters (like category, tags, etc.)
-    const additionalFilters = { ...filter };
-    delete additionalFilters.name;
-    delete additionalFilters.description;
-    delete additionalFilters.minPrice;
-    delete additionalFilters.maxPrice;
+    const {
+      name,
+      description,
+      minPrice,
+      maxPrice,
+      category,
+      ...additionalFilters
+    } = filter;
 
     finalFilter = {
       ...finalFilter,
@@ -92,6 +108,23 @@ class ProductService {
       throw new Error("Product not found");
     }
     return deletedProduct;
+  }
+
+  async updateProduct(productId, updateData) {
+    const excludedFields = ["_id", "id", "createdAt", "updatedAt"];
+    excludedFields.forEach((field) => delete updateData[field]);
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedProduct) {
+      throw new Error("Product not found");
+    }
+
+    return updatedProduct;
   }
 }
 

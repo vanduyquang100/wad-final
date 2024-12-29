@@ -93,6 +93,29 @@ class OrderService {
     order.status = status;
     return await order.save();
   }
+
+  async getAllOrders(status, page = 1, limit = 10) {
+    const filter = status ? { status } : {};
+
+    const skip = (page - 1) * limit;
+    const orders = await Order.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalOrders = await Order.countDocuments(filter);
+    const totalPages = Math.ceil(totalOrders / limit);
+
+    return {
+      orders,
+      pagination: {
+        totalOrders,
+        totalPages,
+        currentPage: page,
+        limit,
+      },
+    };
+  }
 }
 
 export default new OrderService();

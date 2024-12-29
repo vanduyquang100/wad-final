@@ -36,9 +36,29 @@ class ProductController {
 
   async getAllProducts(req, res) {
     try {
-      const { page, limit, ...filter } = req.query; // Extracting pagination and filters from query
-      const products = await productService.getProducts(filter, page, limit);
+      const { page, limit, sortBy, sortOrder, ...filter } = req.query; // Extracting pagination and filters from query
+      const products = await productService.getProducts(
+        filter,
+        page,
+        limit,
+        sortBy,
+        sortOrder
+      );
       res.json(products);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async updateProduct(req, res) {
+    try {
+      const productId = req.params.id;
+      const productData = req.body;
+      const updatedProduct = await productService.updateProduct(
+        productId,
+        productData
+      );
+      res.status(200).json(updatedProduct);
     } catch (error) {
       res.status(400).json({ error: error.message });
     }

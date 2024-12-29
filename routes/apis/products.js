@@ -121,4 +121,51 @@ router.get("/:id", productController.getProduct);
  */
 router.delete("/:id", productController.deleteProduct);
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   patch:
+ *     summary: Update a product
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               detailDescription:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *                 format: float
+ *               promotePrice:
+ *                 type: number
+ *                 format: float
+ *               category:
+ *                 type: string
+ *               imageUrl:
+ *                 type: string
+ *               stock:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Product updated successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Product not found
+ */
+router.patch("/:id", productController.updateProduct);
+
 export default router;
