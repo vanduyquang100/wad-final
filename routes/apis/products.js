@@ -80,6 +80,20 @@ router.get("/", productController.getAllProducts);
 
 /**
  * @swagger
+ * /api/products/revenue:
+ *   get:
+ *     summary: Get products sorted by total revenue
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: List of products with total revenue
+ *       400:
+ *         description: Bad request
+ */
+router.get("/revenue", productController.getProductsWithRevenue);
+
+/**
+ * @swagger
  * /api/products/{id}:
  *   get:
  *     summary: Get a product by ID
@@ -120,5 +134,52 @@ router.get("/:id", productController.getProduct);
  *         description: Product not found
  */
 router.delete("/:id", productController.deleteProduct);
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   patch:
+ *     summary: Update a product
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               detailDescription:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *                 format: float
+ *               promotePrice:
+ *                 type: number
+ *                 format: float
+ *               category:
+ *                 type: string
+ *               imageUrl:
+ *                 type: string
+ *               stock:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Product updated successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Product not found
+ */
+router.patch("/:id", productController.updateProduct);
 
 export default router;

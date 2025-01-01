@@ -9,6 +9,7 @@ import { specs, swaggerUi } from "./swagger.js";
 import { redisClient } from "./config/redisConfig.js";
 import { RedisStore } from "connect-redis";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
@@ -41,7 +42,17 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public"))); // Correctly setting up static middleware
-// app.use("/products", express.static(join(__dirname, "views")));
+
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5174",
+    "https://vanduyquang.space",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 // Ensure connectDB is defined or imported correctly
 // Import your database connection function here
