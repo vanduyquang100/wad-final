@@ -63,6 +63,15 @@ class ProductController {
       res.status(400).json({ error: error.message });
     }
   }
+
+  async getProductsWithRevenue(req, res) {
+    try {
+      const products = await productService.getProductsWithRevenue();
+      res.json(products);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 }
 
 export const productController = new ProductController();

@@ -53,6 +53,41 @@ router.get("/", orderController.getAllOrders);
 
 /**
  * @swagger
+ * /api/orders/revenue:
+ *   get:
+ *     summary: Get total revenue in a time range
+ *     tags: [Orders]
+ *     parameters:
+ *       - in: query
+ *         name: start
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           description: Start timestamp in Unix milliseconds
+ *       - in: query
+ *         name: end
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           description: End timestamp in Unix milliseconds
+ *     responses:
+ *       200:
+ *         description: Total revenue in the time range
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalRevenue:
+ *                   type: number
+ *                   description: Total revenue amount
+ *       400:
+ *         description: Bad request
+ */
+router.get("/revenue", orderController.getRevenueInRange);
+
+/**
+ * @swagger
  * /api/orders/{id}:
  *   get:
  *     summary: Get order detail

@@ -126,6 +126,82 @@ class ProductService {
 
     return updatedProduct;
   }
+
+  /**
+   * Get the list of products with total revenue earned from each product.
+   * Products are sorted by total revenue in descending order.
+   *
+   * @returns {Object[]} - List of products with total revenue info.
+   */
+  async getProductsWithRevenue() {
+    const productsWithRevenue = await Product.aggregate([
+      // Lookup orders that include the product
+      {
+        $lookup: {
+          from: "orders",
+          localField: "_id",
+          foreignField: "items.productId",
+          as: "orderData",
+        },
+      },
+      // Unwind the orderData array to process each order individually
+      {
+        $unwind: {
+          path: "$orderData",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      // Unwind the items array inside orderData to access individual items
+      {
+        $unwind: {
+          path: "$orderData.items",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      // Match relevant order items (excluding pending and canceled orders)
+      {
+        $match: {
+          "orderData.status": { $nin: ["pending", "canceled"] },
+        },
+      },
+      // Match only items belonging to the current product
+      {
+        $match: {
+          $expr: {
+            $eq: ["$orderData.items.productId", "$_id"],
+          },
+        },
+      },
+      // Group by product and calculate total revenue
+      {
+        $group: {
+          _id: "$_id",
+          name: { $first: "$name" },
+          price: { $first: "$price" },
+          totalRevenue: {
+            $sum: {
+              $multiply: ["$orderData.items.quantity", "$price"],
+            },
+          },
+        },
+      },
+      // Sort by total revenue in descending order
+      {
+        $sort: { totalRevenue: -1 },
+      },
+      // Optionally, project the fields you want to return
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          price: 1,
+          totalRevenue: 1,
+        },
+      },
+    ]);
+
+    return productsWithRevenue;
+  }
 }
 
 export default new ProductService();

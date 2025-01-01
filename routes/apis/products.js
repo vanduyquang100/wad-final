@@ -80,6 +80,20 @@ router.get("/", productController.getAllProducts);
 
 /**
  * @swagger
+ * /api/products/revenue:
+ *   get:
+ *     summary: Get products sorted by total revenue
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: List of products with total revenue
+ *       400:
+ *         description: Bad request
+ */
+router.get("/revenue", productController.getProductsWithRevenue);
+
+/**
+ * @swagger
  * /api/products/{id}:
  *   get:
  *     summary: Get a product by ID

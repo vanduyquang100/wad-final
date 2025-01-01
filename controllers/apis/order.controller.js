@@ -46,6 +46,30 @@ class OrderController {
       res.status(400).json({ error: error.message });
     }
   }
+
+  async getRevenueInRange(req, res) {
+    try {
+      const { start, end } = req.query;
+
+      if (!start || !end) {
+        return res
+          .status(400)
+          .json({ error: "Start and end timestamps are required." });
+      }
+
+      const startDate = new Date(parseInt(start, 10));
+      const endDate = new Date(parseInt(end, 10));
+
+      if (isNaN(startDate) || isNaN(endDate)) {
+        return res.status(400).json({ error: "Invalid timestamps provided." });
+      }
+
+      const revenue = await orderService.getDailyRevenue(startDate, endDate);
+      res.json({ totalRevenue: revenue });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 }
 
 export const orderController = new OrderController();
