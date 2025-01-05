@@ -26,6 +26,18 @@ class OrderController {
     }
   }
 
+  async getUserOrders(req, res) {
+    try {
+      const { userId } = req.params;
+
+      const data = await orderService.getUserOrders(userId);
+
+      res.json(data);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
   async getOrderDetail(req, res) {
     try {
       const { id } = req.params;

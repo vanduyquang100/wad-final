@@ -128,14 +128,15 @@ class ProductService {
   }
 
   /**
-   * Get the list of products with total revenue earned from each product.
+   * Get the most recent 10 products with total revenue earned within a specified time range.
    * Products are sorted by total revenue in descending order.
    *
-   * @returns {Object[]} - List of products with total revenue info.
+   * @param {number} start - Start of the time range in milliseconds since Unix epoch.
+   * @param {number} end - End of the time range in milliseconds since Unix epoch.
+   * @returns {Object[]} - List of top 10 products with total revenue info within the time range.
    */
-  async getProductsWithRevenue() {
+  async getProductsWithRevenue(start, end) {
     const productsWithRevenue = await Product.aggregate([
-      // Lookup orders that include the product
       {
         $lookup: {
           from: "orders",
@@ -144,27 +145,27 @@ class ProductService {
           as: "orderData",
         },
       },
-      // Unwind the orderData array to process each order individually
+
       {
         $unwind: {
           path: "$orderData",
           preserveNullAndEmptyArrays: true,
         },
       },
-      // Unwind the items array inside orderData to access individual items
+
       {
         $unwind: {
           path: "$orderData.items",
           preserveNullAndEmptyArrays: true,
         },
       },
-      // Match relevant order items (excluding pending and canceled orders)
+
       {
         $match: {
           "orderData.status": { $nin: ["pending", "canceled"] },
         },
       },
-      // Match only items belonging to the current product
+
       {
         $match: {
           $expr: {
@@ -172,7 +173,16 @@ class ProductService {
           },
         },
       },
-      // Group by product and calculate total revenue
+
+      {
+        $match: {
+          "orderData.createdAt": {
+            $gte: new Date(start),
+            $lte: new Date(end),
+          },
+        },
+      },
+
       {
         $group: {
           _id: "$_id",
@@ -185,11 +195,15 @@ class ProductService {
           },
         },
       },
-      // Sort by total revenue in descending order
+
       {
         $sort: { totalRevenue: -1 },
       },
-      // Optionally, project the fields you want to return
+
+      {
+        $limit: 10,
+      },
+
       {
         $project: {
           _id: 1,

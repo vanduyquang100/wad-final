@@ -88,6 +88,27 @@ router.get("/revenue", orderController.getRevenueInRange);
 
 /**
  * @swagger
+ * /api/orders/users/{userId}:
+ *   get:
+ *     summary: Get user's orders
+ *     tags: [Orders]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *           description: User ID
+ *     responses:
+ *       200:
+ *         description: Orders
+ *       404:
+ *         description: Order not found
+ */
+router.get("/users/:userId", orderController.getUserOrders);
+
+/**
+ * @swagger
  * /api/orders/{id}:
  *   get:
  *     summary: Get order detail

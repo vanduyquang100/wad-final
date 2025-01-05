@@ -29,6 +29,12 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      required: false,
+      enum: ["on-stock", "out-of-stock", "suspended", "upcoming"],
+      default: "on-stock",
+    },
     imageUrl: {
       type: String,
       required: true,
