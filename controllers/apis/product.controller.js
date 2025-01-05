@@ -66,7 +66,17 @@ class ProductController {
 
   async getProductsWithRevenue(req, res) {
     try {
-      const products = await productService.getProductsWithRevenue();
+      const { start, end } = req.query;
+      const startTime = Number(start);
+      const endTime = Number(end);
+
+      if (isNaN(startTime) || isNaN(endTime)) {
+        throw new Error("Invalid start or end timestamp");
+      }
+      const products = await productService.getProductsWithRevenue(
+        startTime,
+        endTime
+      );
       res.json(products);
     } catch (error) {
       res.status(400).json({ error: error.message });
