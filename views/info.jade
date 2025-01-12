@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  header(class="w-full p-5 bg-black text-white shadow-lg")
+    nav(class="max-w-screen-lg mx-auto flex justify-between items-center")
+      h1 WalenCiaga
+      a(href="/", class="text-sm") Home
+      if user
+        div(class='flex space-x-4 items-center ml-auto')
+          a(href='/carts/')
+            img(src="/images/cart.svg", alt="cart", class="w-4")
+          div(class='text-white') Hello #{user.name}
+          a(class="button-base", href="/users/logout") Log Out
+
+  main(class="bg-white mx-auto p-10")
+    div(class="text-sm text-gray-500 mb-4")
+      a(href="/") Home
+      |  &gt;
+      a(href="/profile") Profile
+
+    div(class="w-full")
+      div(class="bg-gray-50 p-6 border-[1px] border-gray-100 rounded-lg shadow-md")
+        h2(class="text-2xl font-semibold text-black mb-4") Personal Information
+        div(class="flex space-x-4 w-full")
+          div(class="mb-4")
+            div(class="space-y-4")
+              img(id="image-avatar", src="#{user.profilePic || '/images/default-avatar.png'}", alt="Avatar", class="w-24 h-24 rounded-full object-cover")
+              label(for="avatar", class="block text-sm font-semibold text-gray-700 cursor-pointer px-4 text-nowrap") Change Avatar
+              input(type="file", id="avatar", name="avatar", class="hidden")
+          div(class="w-full")
+            form(id="update-form", action="/api/users/#{user._id}", method="PUT")
+              div(class="mb-4")
+                label(for="name", class="block text-sm font-semibold text-gray-700") Name
+                input(type="text", id="name", name="name", value="#{user.name}", class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 text-black")
+
+              div(class="mb-4")
+                label(for="email", class="block text-sm font-semibold text-gray-700") Email
+                input(type="email", id="email", name="email", disabled, value="#{user.email}", class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 text-gray-600")
+
+              input(type="hidden", id="profilePic", name="profilePic", value="#{user.profilePic || ''}")
+              
+              button(type="submit", class="button-main ml-auto py-2 px-4 mt-4 text-white bg-green-600 rounded hover:bg-green-700") Update Info
+
+    div(class="mt-10 w-3/4 mx-auto text-sm text-gray-700")
+      p(class="text-center") *Note: Update your details and avatar for a better experience.
+
+  footer(class="text-center py-5 text-sm font-light text-white")
+    p &copy; 2024 Company. All rights reserved.
+
+  script(src="/javascripts/profile.js", type='module')

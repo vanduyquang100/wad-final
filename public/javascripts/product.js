@@ -71,3 +71,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const images = document.querySelectorAll(".carousel-image");
+  const navButtons = document.querySelectorAll(".carousel-nav");
+  let currentIndex = 0;
+
+  const updateCarousel = (direction) => {
+    images[currentIndex].classList.remove("opacity-100");
+    images[currentIndex].classList.add("opacity-0");
+
+    if (direction === "next") {
+      currentIndex = (currentIndex + 1) % images.length;
+    } else if (direction === "prev") {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+    }
+
+    images[currentIndex].classList.remove("opacity-0");
+    images[currentIndex].classList.add("opacity-100");
+  };
+
+  navButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const direction = button.dataset.direction;
+      updateCarousel(direction);
+    });
+  });
+});
