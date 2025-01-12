@@ -9,15 +9,15 @@ import { specs, swaggerUi } from "./swagger.js";
 import { redisClient } from "./config/redisConfig.js";
 import { RedisStore } from "connect-redis";
 import dotenv from "dotenv";
-import cors from "cors";
-
 dotenv.config();
+import cors from "cors";
 
 import indexViewRouter from "./routes/views/index.js";
 import usersApiRouter from "./routes/apis/users.js";
 import productsApiRouter from "./routes/apis/products.js";
 import cartsApiRouter from "./routes/apis/cart.js";
 import ordersApiRouter from "./routes/apis/order.js";
+import imageApiRouter from "./routes/apis/image.js";
 import productViewRouter from "./routes/views/products.js";
 import cartViewRouter from "./routes/views/carts.js";
 import orderViewRouter from "./routes/views/order.js";
@@ -92,6 +92,7 @@ app.use("/api/users", usersApiRouter);
 app.use("/api/products", productsApiRouter);
 app.use("/api/carts", cartsApiRouter);
 app.use("/api/orders", ordersApiRouter);
+app.use("/api/images", imageApiRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

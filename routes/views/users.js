@@ -11,6 +11,22 @@ router.get("/login", function (req, res, next) {
   res.render("login", { title: "Log In", error: req.flash("error") });
 });
 
+router.get("/info", function (req, res, next) {
+  try {
+    if (!req.user) {
+      throw new Error("Not authenticated user.");
+    }
+    res.render("info", {
+      title: "Personal Info",
+      user: req.user,
+      error: req.flash("error"),
+    });
+  } catch (e) {
+    console.log("Error happened when processing the User page: ", e);
+    res.redirect("/users/login");
+  }
+});
+
 router.post(
   "/login",
   passport.authenticate("local", {
