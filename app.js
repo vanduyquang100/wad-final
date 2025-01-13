@@ -50,6 +50,7 @@ const corsOptions = {
     "http://localhost:5174",
     "http://127.0.0.1:5174",
     "https://vanduyquang.space",
+    "https://wad-admin-final.vanduyquang.space",
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true,
