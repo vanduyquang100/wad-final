@@ -1,4 +1,5 @@
 import productService from "../../services/product.service.js";
+import { commentService } from "../../services/comment.service.js";
 
 class ProductController {
   async createProduct(req, res) {
@@ -78,6 +79,53 @@ class ProductController {
         endTime
       );
       res.json(products);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+  async getCommentsByProduct(req, res) {
+    try {
+      const { id: productId } = req.params;
+      const { page, limit } = req.query;
+      const userId = req.user?._id; // Ensure `req.user` exists if authentication is applied
+
+      const result = await commentService.getCommentsByProduct({
+        productId,
+        userId,
+        page: parseInt(page, 10) || 1,
+        limit: parseInt(limit, 10) || 10,
+      });
+
+      if (!result) {
+        return res
+          .status(404)
+          .json({ message: "Product or comments not found" });
+      }
+
+      res.json(result);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async postComment(req, res) {
+    try {
+      const { id: productId } = req.params;
+      const { content, rating } = req.body;
+      const userId = req.user?._id;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const result = await commentService.postComment({
+        userId,
+        productId,
+        content,
+        rating,
+      });
+
+      res.status(201).json(result);
     } catch (error) {
       res.status(400).json({ error: error.message });
     }

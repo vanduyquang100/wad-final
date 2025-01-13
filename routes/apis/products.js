@@ -129,6 +129,74 @@ router.get("/revenue", productController.getProductsWithRevenue);
 
 /**
  * @swagger
+ * /api/products/{id}/comments:
+ *   get:
+ *     summary: Get comments for a product
+ *     tags: [Products, Comments]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           description: Product ID
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *     responses:
+ *       200:
+ *         description: List of comments for the product
+ *       404:
+ *         description: Product not found
+ */
+router.get("/:id/comments", productController.getCommentsByProduct);
+
+/**
+ * @swagger
+ * /api/products/{id}/comments:
+ *   post:
+ *     summary: Post a comment on a product
+ *     tags: [Products, Comments]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           description: Product ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               content:
+ *                 type: string
+ *                 description: Comment content
+ *               rating:
+ *                 type: number
+ *                 format: float
+ *                 description: Rating for the product
+ *     responses:
+ *       201:
+ *         description: Comment created successfully
+ *       400:
+ *         description: Bad request
+ */
+router.post("/:id/comments", productController.postComment);
+
+/**
+ * @swagger
  * /api/products/{id}:
  *   get:
  *     summary: Get a product by ID

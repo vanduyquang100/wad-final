@@ -43,6 +43,31 @@ block content
             | +
         button(id="add-to-cart", class="button-main py-4 px-2") Add to Cart
     div(class="mt-10 w-3/4 mx-auto text-sm text-gray-700")=product.detailDescription
+    div(class="mt-10 w-3/4 mx-auto")
+      h2(class="text-lg font-bold mb-4") Customer Reviews
+      div(id="comments_container", class="w-full h-40 overflow-auto text-black")
+        if comments.comments && comments.comments.length > 0
+          each comment in comments.comments
+            div(class="border p-4 mb-4 rounded-lg")
+              div(class="flex space-x-2 items-center")
+                img(src=comment.user.profilePic, class="w-8 h-8 rounded-full", alt="ava")
+                p(class="font-semibold text-black")= comment.user.name
+              p(class="text-gray-700 mb-2 my-4")= comment.content
+              //- div(class="text-sm text-gray-500 flex items-center space-x-2")
+              //-   span= "Likes: " + comment.likes
+              //-   if comment.userLiked
+              //-     span(class="text-green-600") You liked this comment
+        else
+          p(class="text-gray-500") No comments yet. Be the first to leave one!
+      div(class="flex justify-center space-x-4")
+        button(id="prev_comment", class="button-base bg-gray-600 border-[1px] border-gray-500", disabled) Previous
+        button(id="next_comment", class="button-base bg-gray-600 border-[1px] border-gray-500") Next
+      if user
+        div(class="mt-6 flex justify-center flex-col items-center my-4")
+          textarea(id="comment-text", class="w-full p-2 text-black border rounded-lg mb-2", rows="3", placeholder="Write your comment...", data-product-id="#{product._id}").empty
+          button(id="submit-comment", class="button-main px-4 py-2") Submit Comment
+      else
+        p(class="text-gray-500") Please log in to leave a comment.
 
     div(class="w-screen")
       p(class='text-bold text-black font-semibold mt-10 text-center mb-4') Relevant Products

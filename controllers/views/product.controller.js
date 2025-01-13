@@ -1,11 +1,18 @@
+import { commentService } from "../../services/comment.service.js";
 import productService from "../../services/product.service.js";
 
 class ProductViewController {
   async getProduct(req) {
+    let comments = undefined;
     try {
       const product = await productService.getProductById(req.params.id);
       if (product) {
         console.log("found product");
+        comments = await commentService.getCommentsByProduct({
+          productId: product._id,
+          userId: req.user._id,
+        });
+        console.log("found comments: ", comments);
         const relevantProducts = await productService.getRelevantProducts(
           product.id,
           product.category
@@ -14,7 +21,7 @@ class ProductViewController {
         product.relevantProducts = relevantProducts.docs;
         console.log("product in the end", product);
       }
-      return product;
+      return { product, comments: comments };
     } catch (error) {
       throw new Error(error.message);
     }

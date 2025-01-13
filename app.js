@@ -17,6 +17,7 @@ import usersApiRouter from "./routes/apis/users.js";
 import productsApiRouter from "./routes/apis/products.js";
 import cartsApiRouter from "./routes/apis/cart.js";
 import ordersApiRouter from "./routes/apis/order.js";
+import commentApiController from "./routes/apis/comment.js";
 import imageApiRouter from "./routes/apis/image.js";
 import productViewRouter from "./routes/views/products.js";
 import cartViewRouter from "./routes/views/carts.js";
@@ -92,6 +93,7 @@ app.use("/api/users", usersApiRouter);
 app.use("/api/products", productsApiRouter);
 app.use("/api/carts", cartsApiRouter);
 app.use("/api/orders", ordersApiRouter);
+app.use("/api/comments", commentApiController);
 app.use("/api/images", imageApiRouter);
 
 // catch 404 and forward to error handler

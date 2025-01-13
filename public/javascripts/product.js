@@ -98,3 +98,103 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+document
+  .getElementById("submit-comment")
+  ?.addEventListener("click", async () => {
+    const commentTag = document.getElementById("comment-text");
+    const commentText = commentTag.value.trim();
+    if (!commentText) {
+      alert("Please write a comment before submitting.");
+      return;
+    }
+
+    const productId = commentTag.dataset.productId;
+
+    try {
+      const response = await fetch(
+        `/api/products/${productId.toString()}/comments`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content: commentText, rating: 5 }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to post comment");
+      }
+
+      // Reload the page to reflect the new comment
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while submitting your comment.");
+    }
+  });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const prevButton = document.getElementById("prev_comment");
+  const nextButton = document.getElementById("next_comment");
+  const commentTag = document.getElementById("comment-text");
+  const productId = commentTag.dataset.productId;
+  const commentsContainer = document.getElementById("comments_container"); // Update with your container's ID
+  let currentPage = 1;
+  const limit = 10; // Number of comments per page
+
+  const fetchComments = async (page) => {
+    try {
+      const response = await fetch(
+        `/api/products/${productId}/comments?page=${page}&limit=${limit}`
+      );
+      if (!response.ok) {
+        throw new Error(`Error fetching comments: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      updateComments(data.comments);
+      updateButtons(data.page, data.totalPages);
+    } catch (error) {
+      console.error("Failed to fetch comments:", error);
+    }
+  };
+
+  const updateComments = (comments) => {
+    commentsContainer.innerHTML = comments
+      .map(
+        (comment) => `
+          <div class="border p-4 mb-4 rounded-lg">
+            <div class="flex space-x-2 items-center">
+              <img src=${comment.user.profilePic} class="w-8 h-8 rounded-full" alt="ava" />
+              <p class="comment-user font-semibold text-black">${comment.user.name}</p>
+            </div>
+            
+            <p class="comment-content text-gray-700 mb-2 my-4">${comment.content}</p>
+          </div>
+        `
+      )
+      .join("");
+  };
+
+  const updateButtons = (page, totalPages) => {
+    prevButton.disabled = page <= 1;
+    nextButton.disabled = page >= totalPages;
+  };
+
+  prevButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      fetchComments(currentPage);
+    }
+  });
+
+  nextButton.addEventListener("click", () => {
+    currentPage++;
+    fetchComments(currentPage);
+  });
+
+  // Initial fetch
+  fetchComments(currentPage);
+});
