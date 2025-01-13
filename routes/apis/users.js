@@ -209,6 +209,52 @@ router.get("/:id", userController.getUser);
  *       404:
  *         description: User not found
  */
+router.put("/me", userController.updateMe);
+
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   put:
+ *     summary: Update a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               roles:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Array of user roles
+ *               profilePic:
+ *                 type: string
+ *                 description: Link to the user's profile picture
+ *               bannedDate:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Date the user is banned until
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *       404:
+ *         description: User not found
+ */
 router.put("/:id", userController.updateUser);
 
 /**

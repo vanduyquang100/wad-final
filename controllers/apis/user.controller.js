@@ -47,6 +47,18 @@ class UserController {
     }
   }
 
+  async updateMe(req, res) {
+    try {
+      if (!req.user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      const user = await userService.updateUser(req.user._id, req.body);
+      res.json(user);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
   async deleteUser(req, res) {
     try {
       const user = await userService.deleteUser(req.params.id);
