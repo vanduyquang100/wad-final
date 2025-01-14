@@ -14,7 +14,7 @@ block content
         div(class='flex space-x-4 items-center')
           a(href='/carts/')
             img(src="/images/cart.svg", alt="spinner", class="w-4")
-          div(class='text-white') Hello #{user.name}
+          a(href="/users/info", class='text-white') Hello #{user.name}
           a(class="button-base", href="/users/logout") Log Out
       if !user
         button(class="button-base", onclick="navigateRegister()") Get Started
@@ -41,9 +41,11 @@ block content
       div(class="text-lg italic") Total price
       div(class="flex flex-col items-end")
         div(class="total-price-tag price-tag text-lg font-bold text-green-800")= totalPrice
-        button(class="px-4 mt-4 py-2 rounded-full bg-green-800 text-white flex items-center space-x-2")
-          p Make the Order
-          img(src="/images/arrow_icon.svg", alt="spinner", class="w-4")
+    div(class="flex space-x-4 items-center my-4")
+      p Status
+      p(class="rounded-lg px-4 py-2 bg-green-200 text-green-900")= order.status
+    if order.address
+      div(class="text-lg italic") Deliver to #{order.address}
 
   script(src="/javascripts/render_order.js", type='module')
     

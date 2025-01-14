@@ -80,6 +80,26 @@ class OrderService {
     };
   }
 
+  async getOrderByIdWithProduct(orderId) {
+    const order = await Order.findOne({ _id: orderId })
+      .populate("items.productId")
+      .populate("userId", "name");
+
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    return {
+      ...order._doc,
+      userName: order.userId.name,
+      items: order.items.map((item) => ({
+        ...item._doc,
+        product: item._doc.productId,
+        productId: item._doc.productId._id,
+      })),
+    };
+  }
+
   async updateOrderStatus(orderId, status) {
     const allowedStatuses = [
       "pending",
@@ -103,6 +123,33 @@ class OrderService {
 
   async getAllOrders(status, page = 1, limit = 10) {
     const filter = status ? { status } : {};
+
+    const skip = (page - 1) * limit;
+    const orders = await Order.find(filter)
+      .populate("userId", "name")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalOrders = await Order.countDocuments(filter);
+    const totalPages = Math.ceil(totalOrders / limit);
+
+    return {
+      orders: orders.map((order) => ({
+        ...order._doc,
+        userName: order.userId.name,
+      })),
+      pagination: {
+        totalOrders,
+        totalPages,
+        currentPage: page,
+        limit,
+      },
+    };
+  }
+
+  async getAllOrdersOfUser(userId, page = 1, limit = 10) {
+    const filter = { userId };
 
     const skip = (page - 1) * limit;
     const orders = await Order.find(filter)

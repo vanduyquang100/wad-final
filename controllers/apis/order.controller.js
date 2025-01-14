@@ -3,7 +3,11 @@ import orderService from "../../services/order.service.js";
 class OrderController {
   async createOrder(req, res) {
     try {
-      const order = await orderService.createOrderFromCart(req.user.id);
+      const { address } = req.body;
+      const order = await orderService.createOrderFromCart(
+        req.user.id,
+        address
+      );
       return order;
     } catch (error) {
       throw new Error("Error happened. ", {

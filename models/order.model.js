@@ -35,26 +35,7 @@ const orderSchema = new Schema(
       default: "pending",
     },
     address: {
-      street: {
-        type: String,
-        // required: true,
-      },
-      city: {
-        type: String,
-        // required: true,
-      },
-      state: {
-        type: String,
-        // required: true,
-      },
-      zip: {
-        type: String,
-        // required: true,
-      },
-      country: {
-        type: String,
-        // required: true,
-      },
+      type: String,
     },
     paymentInfo: {
       type: Schema.Types.Mixed,

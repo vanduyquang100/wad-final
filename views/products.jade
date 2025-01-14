@@ -13,7 +13,7 @@ block content
           div(class='flex space-x-4 items-center')
             a(href='/carts/')
               img(src="/images/cart.svg", alt="spinner", class="w-4")
-            div(class='text-white') Hello #{user.name}
+            a(href="/users/info", class='text-white') Hello #{user.name}
             a(class="button-base", href="/users/logout") Log Out
         if !user
           button(class="button-base", onclick="navigateRegister()") Get Started
