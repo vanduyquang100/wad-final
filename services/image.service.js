@@ -38,8 +38,12 @@ class ImgurService {
         return response.data.data.link;
       }
 
-      throw new Error("Failed to upload image");
+      throw new Error(`Failed to upload image, ${response.message}`);
     } catch (error) {
+      console.error(
+        "Imgur upload error:",
+        error.response?.data || error.message
+      );
       throw new Error(`Imgur upload failed: ${error.message}`);
     }
   }
