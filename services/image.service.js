@@ -22,7 +22,7 @@ class ImgurService {
     try {
       let response = await axios.post(
         this.imgurApiUrl,
-        { image: imageBuffer.toString("base64") },
+        { image: imageBuffer.toString("base64"), type: "base64" },
         {
           headers: {
             Authorization: `Client-ID ${this.imgurClientId}`,
@@ -34,7 +34,7 @@ class ImgurService {
       if (!response.data) {
         response = await axios.post(
           this.alterImgurApiUrl,
-          { image: imageBuffer.toString("base64") },
+          { image: imageBuffer.toString("base64"), type: "base64" },
           {
             headers: {
               Authorization: `Client-ID ${this.imgurClientId}`,
