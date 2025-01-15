@@ -1,11 +1,82 @@
 import axios from "axios";
 import multer from "multer";
+import crypto from "crypto";
 
 import dotenv from "dotenv";
 dotenv.config();
 
 // Configure multer for file uploads
 export const upload = multer({ storage: multer.memoryStorage() });
+
+class CloudinaryService {
+  constructor() {
+    this.cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`;
+    this.apiKey = process.env.CLOUDINARY_API_KEY;
+    this.apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+    if (!this.apiKey || !this.apiSecret || !process.env.CLOUDINARY_CLOUD_NAME) {
+      throw new Error("Cloudinary configuration is incomplete.");
+    }
+  }
+
+  generateSignature(params) {
+    const sortedParams = Object.keys(params)
+      .sort()
+      .map((key) => `${key}=${params[key]}`)
+      .join("&");
+
+    return crypto
+      .createHash("sha1")
+      .update(sortedParams + this.apiSecret)
+      .digest("hex");
+  }
+
+  async uploadImage(imageBuffer) {
+    try {
+      const timestamp = Math.floor(Date.now() / 1000);
+
+      // Parameters to sign
+      const paramsToSign = {
+        use_filename: true,
+        timestamp,
+      };
+
+      // Generate signature
+      const signature = this.generateSignature(paramsToSign);
+
+      // Prepare form data
+      const formData = new URLSearchParams();
+      formData.append(
+        "file",
+        `data:image/png;base64,${imageBuffer.toString("base64")}`
+      );
+      formData.append("use_filename", "true");
+      formData.append("timestamp", timestamp);
+      formData.append("api_key", this.apiKey);
+      formData.append("signature", signature);
+
+      // Make the request
+      const response = await axios.post(
+        this.cloudinaryUrl,
+        formData.toString(),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      // Return the secure URL of the uploaded image
+      return response.data.secure_url;
+    } catch (error) {
+      console.error(
+        "Cloudinary upload error:",
+        error.response?.data || error.message
+      );
+      throw new Error(`Cloudinary upload failed: ${error.message}`);
+    }
+  }
+}
 
 // ImgurService handles the interaction with Imgur API
 class ImgurService {
@@ -59,4 +130,4 @@ class ImgurService {
   }
 }
 
-export const imgurService = new ImgurService();
+export const imgurService = new CloudinaryService();

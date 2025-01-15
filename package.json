@@ -9,6 +9,7 @@
     "tailwind": "npx tailwindcss -i ./public/stylesheets/style.css -o ./public/stylesheets/output.css --watch"
   },
   "dependencies": {
+    "@cloudinary/url-gen": "^1.21.0",
     "axios": "^1.7.9",
     "connect-flash": "^0.1.1",
     "connect-redis": "^8.0.1",
