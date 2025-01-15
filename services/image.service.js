@@ -10,8 +10,8 @@ export const upload = multer({ storage: multer.memoryStorage() });
 // ImgurService handles the interaction with Imgur API
 class ImgurService {
   constructor() {
-    this.imgurApiUrl = "https://api.imgur.com/3/upload";
-    this.alterImgurApiUrl = "https://api.imgur.com/3/image";
+    this.imgurApiUrl = "https://api.imgur.com/3/image";
+    this.alterImgurApiUrl = "https://api.imgur.com/3/upload";
     this.imgurClientId = process.env.IMGUR_CLIENT_ID; // Set your Imgur Client ID in environment variables
     if (!this.imgurClientId) {
       throw new Error("IMGUR_CLIENT_ID environment variable is not set");
