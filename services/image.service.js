@@ -11,6 +11,7 @@ export const upload = multer({ storage: multer.memoryStorage() });
 class ImgurService {
   constructor() {
     this.imgurApiUrl = "https://api.imgur.com/3/upload";
+    this.alterImgurApiUrl = "https://api.imgur.com/3/image";
     this.imgurClientId = process.env.IMGUR_CLIENT_ID; // Set your Imgur Client ID in environment variables
     if (!this.imgurClientId) {
       throw new Error("IMGUR_CLIENT_ID environment variable is not set");
@@ -19,7 +20,7 @@ class ImgurService {
 
   async uploadImage(imageBuffer) {
     try {
-      const response = await axios.post(
+      let response = await axios.post(
         this.imgurApiUrl,
         { image: imageBuffer.toString("base64") },
         {
@@ -31,7 +32,16 @@ class ImgurService {
       );
 
       if (!response.data) {
-        console.log("Got response: ", response.message);
+        response = await axios.post(
+          this.alterImgurApiUrl,
+          { image: imageBuffer.toString("base64") },
+          {
+            headers: {
+              Authorization: `Client-ID ${this.imgurClientId}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
       }
 
       if (response.data && response.data.data && response.data.data.link) {
