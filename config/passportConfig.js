@@ -25,6 +25,10 @@ export const configurePassport = (passport) => {
           if (!user) {
             return done(null, false, { message: "User not found" });
           }
+
+          if (user.bannedTimestamp) {
+            return done(null, false, { message: "This user has been banned." });
+          }
           const isValidPassword = userService.verifyPassword(
             user.password,
             password

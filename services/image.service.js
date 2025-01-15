@@ -30,8 +30,8 @@ class ImgurService {
         }
       );
 
-      if (response.data) {
-        console.log("Got response: ", response.data);
+      if (!response.data) {
+        console.log("Got response: ", response.message);
       }
 
       if (response.data && response.data.data && response.data.data.link) {
